@@ -24,7 +24,7 @@ I used 'moviepy' module. So if you have not installed it, run the following comm
 Flow chart
 ---
 
-Please refer [writing.md]()
+Please refer [writeup.md]()
 
 
 
