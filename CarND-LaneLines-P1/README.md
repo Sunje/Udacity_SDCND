@@ -6,7 +6,9 @@ List of files
 Main scripts 
 * [P1.ipynb]() for jupyter notebook
 * [P1.py]() for python3
+
 Choose one of them and run.
+
 
 Utils
 * [functions.py]() contains every functions for the project
