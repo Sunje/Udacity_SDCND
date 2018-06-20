@@ -23,7 +23,7 @@ The goals / steps of this project are the following:
 
 #### 1. Color selection
 
-First, select colors which represent lane lines. Through some trial and error, I set red, green, blue thershold. See _color_filter_ in [functions.py ]() for the thresholds.
+First, select colors which represent lane lines. Through some trial and error, I set red, green, blue thershold. See _color_filter_ in [functions.py ]() for the threshold values.
 
 ![alt text][image1]
 
