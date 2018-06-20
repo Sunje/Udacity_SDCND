@@ -19,27 +19,61 @@ The goals / steps of this project are the following:
 
 ### Reflection : There are 7 steps in my pipeline
 
-#### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+---
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+#### 1. Color selection
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
-
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+First, select colors which represent lane lines. Through some trial and error, I set red, green, blue thershold. See _(color_filter)_ in [functions.py ]() for the thresholds.
 
 ![alt text][image1]
 
+---
 
-### 2. Identify potential shortcomings with your current pipeline
+### 2. Gray scale
 
+Next, transform the color selected frame to the gray scale frame.
 
-One potential shortcoming would be what would happen when ... 
+![alt text][image1]
 
-Another shortcoming could be ...
+---
 
+### 3. Gaussian Blur
 
-### 3. Suggest possible improvements to your pipeline
+Through Gaussian filter, blurred gray scale frame is obtained. This step improves the canny edge detection.
 
-A possible improvement would be to ...
+![alt text][image1]
 
-Another potential improvement could be to ...
+---
+
+### 4. Canny Edge Detection
+
+This is an edge detection process. Using _(cv2.Canny)_ function, we find the pixel points where the gradient suddenly changes.
+
+![alt text][image1]
+
+---
+
+### 5. Region of Interest
+
+In the frame, lane lines are located in specific region. Consider only this region and discard the rest. 
+
+![alt text][image1]
+
+---
+
+### 6. Region of Interest
+
+_(cv2.HoughLinesP)_ function returns a set of arrays in which each elements is considered to represent the end point of the line. Then, through my _(draw_line)_ and _(draw_line_video)_ in [functions.py ](), I select the lines among the candidates(result of _(cv2.HoughLinesP)_ function). 
+
+![alt text][image1]
+
+---
+
+### 7. Final
+
+Add the detected line image to the original frame.
+
+![alt text][image1]
+
+---
+
