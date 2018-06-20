@@ -23,7 +23,7 @@ The goals / steps of this project are the following:
 
 #### 1. Color selection
 
-First, select colors which represent lane lines. Through some trial and error, I set red, green, blue thershold. See _(color_filter)_ in [functions.py ]() for the thresholds.
+First, select colors which represent lane lines. Through some trial and error, I set red, green, blue thershold. See _color_filter_ in [functions.py ]() for the thresholds.
 
 ![alt text][image1]
 
@@ -47,7 +47,7 @@ Through Gaussian filter, blurred gray scale frame is obtained. This step improve
 
 ### 4. Canny Edge Detection
 
-This is an edge detection process. Using _(cv2.Canny)_ function, we find the pixel points where the gradient suddenly changes.
+This is an edge detection process. Using _cv2.Canny_ function, we find the pixel points where the gradient suddenly changes.
 
 ![alt text][image1]
 
@@ -63,7 +63,7 @@ In the frame, lane lines are located in specific region. Consider only this regi
 
 ### 6. Region of Interest
 
-_(cv2.HoughLinesP)_ function returns a set of arrays in which each elements is considered to represent the end point of the line. Then, through my _(draw_line)_ and _(draw_line_video)_ in [functions.py ](), I select the lines among the candidates(result of _(cv2.HoughLinesP)_ function). 
+_cv2.HoughLinesP_ function returns a set of arrays in which each elements is considered to represent the end point of the line. Then, through my _draw_line_ and _draw_line_video_ in [functions.py ](), I select the lines among the candidates (the result of _cv2.HoughLinesP_ function). 
 
 ![alt text][image1]
 
