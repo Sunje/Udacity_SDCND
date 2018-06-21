@@ -13,7 +13,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+[image1]: ./examples/color_selected.jpg "Color selection"
+[image2]: ./examples/img_gray.jpg "Gray scale"
+[image3]: ./examples/blur_gray.jpg "Gaussian Blur"
+[image4]: ./examples/edges.jpg "Canny Edge Detection"
+[image5]: ./examples/masked_edges.jpg "Region of Interest"
+[image6]: ./examples/lines.jpg "Detecting lines"
+[image7]: ./examples/lines_edges.jpg "Final"
 
 ---
 
@@ -31,31 +37,31 @@ First, select colors which represent the lane lines. Through trial and error, I 
 
 Next, convert the color selected frame to a gray scale frame.
 
-![alt text][image1]
+![alt text][image2]
 
 
 #### 3. Gaussian Blur
 
 Through the Gaussian filter, a blurred gray scale frame is obtained. This step improves the canny edge detection.
 
-![alt text][image1]
+![alt text][image3]
 
 
 #### 4. Canny Edge Detection
 
 This is an edge detection process. Using _cv2.Canny_ function, we find the pixel points where the gradient suddenly changes.
 
-![alt text][image1]
+![alt text][image4]
 
 
 #### 5. Region of Interest
 
 In the frame, the lane lines are located in specific region. Consider only this region and discard the rest. 
 
-![alt text][image1]
+![alt text][image5]
 
 
-#### 6. Region of Interest
+#### 6. Detecting lines
 
 _cv2.HoughLinesP_ function returns a set of arrays. Each array consisting of both ends of a straight line, ie, (x1 y1 x2 y2), is considered a candidate for a lane. Then, through my _draw_line_(_draw_line_video_) in [functions.py ](), I select the arrays that is considered a line from the candidates. The steps are follows:
 
@@ -64,14 +70,14 @@ _cv2.HoughLinesP_ function returns a set of arrays. Each array consisting of bot
 3. Combine the result of the previous frame with the result of the current frame and use the _numpy.polyfit_ function to obtain a linear function. This process allows you to draw lines smoothly. Because the previous information is used, line detection will not fail even if no lines are detected in the current frame. 
 4. Plots the linear function in the specific region selected as a region of interest.
 
-![alt text][image1]
+![alt text][image6]
 
 
 #### 7. Final
 
 Add the detected line image to the original frame.
 
-![alt text][image1]
+![alt text][image7]
 
 ---
 
