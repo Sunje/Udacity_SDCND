@@ -19,7 +19,6 @@ The goals / steps of this project are the following:
 
 ### Reflection : There are 7 steps in my pipeline
 
----
 
 #### 1. Color selection
 
@@ -27,7 +26,6 @@ First, select colors which represent the lane lines. Through trial and error, I 
 
 ![alt text][image1]
 
----
 
 #### 2. Gray scale
 
@@ -35,7 +33,6 @@ Next, convert the color selected frame to a gray scale frame.
 
 ![alt text][image1]
 
----
 
 #### 3. Gaussian Blur
 
@@ -43,7 +40,6 @@ Through the Gaussian filter, a blurred gray scale frame is obtained. This step i
 
 ![alt text][image1]
 
----
 
 #### 4. Canny Edge Detection
 
@@ -51,7 +47,6 @@ This is an edge detection process. Using _cv2.Canny_ function, we find the pixel
 
 ![alt text][image1]
 
----
 
 #### 5. Region of Interest
 
@@ -59,7 +54,6 @@ In the frame, the lane lines are located in specific region. Consider only this 
 
 ![alt text][image1]
 
----
 
 #### 6. Region of Interest
 
@@ -72,7 +66,6 @@ _cv2.HoughLinesP_ function returns a set of arrays. Each array consisting of bot
 
 ![alt text][image1]
 
----
 
 #### 7. Final
 
@@ -86,6 +79,7 @@ Add the detected line image to the original frame.
 
 My pipeline utilizes the information from the previous frame and continues to update the information of the current frame so that it can be used in the next frame. It works well for the supplied test data. However, if the line detection is not performed continuously for several frames, there is a risk of returning line information that does not match the current line because the old line information that has not been updated is continuously used. In addition, since only straight roads are considered at present, there is a limit to properly detecting roads with curvature. It is also a problem that you need to reset the Region of Interest if the camera position changes slightly or the frame size changes slightly. It is very vulnerable to weather conditions because it is based on vision. For example, in a challenge video, there is a scene where the sun suddenly brightens the road and the line disappears. In this case, line detection is not working properly.
 
+----
 
 ### 3. Suggest possible improvements to your pipeline
 
