@@ -13,10 +13,8 @@ List of files
 ---
 
 Main scripts 
-* [P1.ipynb][P1.ipynb] for jupyter notebook
 * [P1.py][P1.py] for python3
 
-Choose one of them and run.
 
 
 Utils
