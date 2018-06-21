@@ -29,12 +29,14 @@ The goals / steps of this project are the following:
 #### 1. Color selection
 
 First, select colors which represent the lane lines. Through trial and error, I set red, green, and blue thersholds. See _color_filter_ in [functions.py ]() for the threshold values.
+
 ![alt text][image1]
 
 
 #### 2. Gray scale
 
 Next, convert the color selected frame to a gray scale frame.
+
 ![alt text][image2]
 
 
