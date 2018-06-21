@@ -29,7 +29,7 @@ Requirements
 
 I used 'moviepy' module. So if you have not installed it, run the following command:
 
-'> pip3 install moviepy'
+> pip3 install moviepy
 
 
 Flow chart
