@@ -1,7 +1,5 @@
 # **Traffic Sign Recognition** 
 
-## Writeup
-
 
 ---
 
