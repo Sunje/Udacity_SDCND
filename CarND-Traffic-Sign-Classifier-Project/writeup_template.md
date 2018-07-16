@@ -76,7 +76,7 @@ As a first step, I convert the images to grayscale since the athors of ["Traffic
 ![alt text][image2]
 
 
-As a last step, I normalized the image data to make zero mean and equal variance as described in the .[class](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013).
+As a last step, I normalized the image data to make zero mean and equal variance as described in the ["class"](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013).
 
 ![alt text][image3]
 
