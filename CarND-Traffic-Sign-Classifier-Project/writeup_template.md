@@ -29,11 +29,12 @@ The goals / steps of this project are the following:
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
 * Files Submitted
- * [Traffic_Sign_Classifier.ipynb ]() is Ipython notebook with code
- * [Traffic_Sign_Classifier.ipynb ]() is HTML output of the code
+  * [Traffic_Sign_Classifier.ipynb ]() is Ipython notebook with code
+  * [Traffic_Sign_Classifier.ipynb ]() is HTML output of the code
+
 
 * Dataset Exploration / Design and Test a Model Architecture / Test a Model on New Images
- * Please read the following contents.
+  * Please read the following contents.
 
 
 
