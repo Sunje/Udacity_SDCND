@@ -219,4 +219,4 @@ This is the visualization of network's feature maps:
 ![alt text][image10]
 
 
-The first layer is seemed to extract some lines from the input images. However, in the case of the second layer, it is difficult to know what the layer is aiming for.
+The first layer is seemed to extract some lines from the input images. However, in the case of the second layer, it is difficult to know what the layer is aiming for. For the third layer, the feature map was not visible because the channel size was 1x1.
