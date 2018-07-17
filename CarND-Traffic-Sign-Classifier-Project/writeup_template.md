@@ -81,11 +81,12 @@ As a last step, I normalized the image data to make zero mean and equal variance
 ![alt text][image3]
 
 
+
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-I carried out the project based on two model structures, LeNet5 and AlexNet. Unfortunately, I failed to train the model based on the AlexNet structure.  The structure of the two models is as follows:
+I carried out the project based on two model structures, LeNet-5 and AlexNet. Unfortunately, I failed to train the model based on the AlexNet structure. The structure of the two models is as follows:
 
-* LeNet
+* LeNet-5
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -133,33 +134,52 @@ I carried out the project based on two model structures, LeNet5 and AlexNet. Unf
 |	RELU					|		 									|
  
  
-I simply expected to use the structure of the model to improve performance, but it was not easy to find the optimal changes to the inner layers.
+I expected a performance improvement by simply using the structure of the model, but it was not easy to change the internal structure(size of inner layers etc.) optimally.
 
 
 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+The code for the model architecture is in cells 6 through 10 of [Traffic_Sign_Classifier.ipynb ](). Since only the model based on the LeNet-5 structure has been successfully trained, I will only discuss this model from now on. 
+
+![alt text][image3]
+
+Above is the original LeNet-5 model. I added _dropout_ of _keep prob = 0.5_ to first and second fully connected layer of the model. _AdamOptimizer_ was used with _learning rate = 0.001_, _epochs = 20_, and _batch size = 128_. With slight modifications to the default model(LeNet-5) provided form the Udacity lesson, I was able to get at least 94% accuaracy.
+
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* train set accuracy: 99.9%
+* validation set accuracy: 95.4%
+* test set accuracy: 93.8%
+* accuracy of the German traffic sign test set from the web: 100%
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
+  * The model I used is a slightly modified version of the default model provided from the Udacity lesson. The model showed over 93% accuracy after a few trial steps, which met the project's requirement.
+  
 * What were some problems with the initial architecture?
+  * At first, the default model had no _dropout_ layer and was not trained properly. 
+  
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+  * After adding the _dropout_ layer, it worked really fine as it reduced overfitting problem.
+  
 * Which parameters were tuned? How were they adjusted and why?
+  * There are hyperparameters such as _learning rate_, _epochs_, _batch size_, and _drop out probability_. To be honest, the first attempt showed 94% accuracy so I made fewer attempts to adjust hyperparameters to increase the accuracy. Instead, I tried a new attempt to set up a model based on the AlexNet structure to improve performance, but I could not optimize the internal structure(such as the inner layer size).
+  
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+  * 
 
 If a well known architecture was chosen:
 * What architecture was chosen?
+  * LeNet-5 was chosen.
+  
 * Why did you believe it would be relevant to the traffic sign application?
+  * LeNet-5 takes 32x32x1 size image as input and solves classification problem, which has very similar structure to our project.
+  
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+
 
 ### Test a Model on New Images
 
@@ -170,41 +190,33 @@ Here are five German traffic signs that I found on the web:
 ![alt text][image4] ![alt text][image5] ![alt text][image6] 
 ![alt text][image7] ![alt text][image8]
 
-The first image might be difficult to classify because ...
+As you can see these images are very regularized as the data that I used to train the model. Therefore, if the model is trained properly, it should have no difficulties to classify these images correctly.
+
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
-Here are the results of the prediction:
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%.
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
-
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 15th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+This is the results of the prediction:
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+[alt text][image8]
 
+Except for the label 15 traffic sign(no vehicles), the model could classify any other signs with 100% confidence.  
 
-For the second image ... 
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
+This is the visualization of network's feature maps:
 
+[alt text][image8]
+[alt text][image8]
+[alt text][image8]
+
+
+The first layer is seemed to extract some lines from the input images. However, in the case of the second layer, it is difficult to know what the layer is aiming for.
