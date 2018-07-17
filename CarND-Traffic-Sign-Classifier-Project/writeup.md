@@ -150,8 +150,8 @@ Above is the original LeNet-5 model. I added _dropout_ of _keep prob = 0.5_ to f
 
 My final model results were:
 * train set accuracy: 99.9%
-* validation set accuracy: 95.4%
-* test set accuracy: 93.8%
+* validation set accuracy: 95.5%
+* test set accuracy: 93.5%
 * accuracy of the German traffic sign test set from the web: 100%
 
 If an iterative approach was chosen:
