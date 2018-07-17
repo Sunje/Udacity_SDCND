@@ -16,14 +16,16 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image1]: ./examples/train_dataset_sign_counts.png "Train dataset"
+[image2]: ./examples/valid_dataset_sign_counts.png "Valid dataset"
+[image3]: ./examples/test_dataset_sign_counts.png "Test dataset"
+[image4]: ./examples/original_gray_normal.png "Original Gray Normal"
+[image5]: ./examples/LeNet5.jpg "LeNet-5"
+[image6]: ./examples/test_web_images.png "German traffic signs from the web"
+[image7]: ./examples/prob_for_each_images.png "Probability for each images"
+[image8]: ./examples/visualize_network_0.png "Original input"
+[image9]: ./examples/visualize_network_1.png "Visualization of Network 1"
+[image10]: ./examples/visualize_network_2.png "Visualization of Network 2"
 
 ---
 
@@ -62,8 +64,8 @@ signs data set:
 Here is an exploratory visualization of the data set. It is a bar chart showing how the data is distributed.
 
 ![alt text][image1]
-![alt text][image1]
-![alt text][image1]
+![alt text][image2]
+![alt text][image3]
 
 
 
@@ -73,12 +75,9 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 As a first step, I convert the images to grayscale since the athors of ["Traffic Sign Recognition with Multi-Scale Convolutional Networks"](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) stated that using grayscale images instead of color images improves the network's accuracy. I understand it as this way: In this problem, the form of the traffic sign is more important than its color. Of course, there is a loss of information, but considering the color is considered to be a factor that complicates the network and makes learning difficult.
 
-![alt text][image2]
-
-
 As a last step, I normalized the image data to make zero mean and equal variance as described in the [class](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013).
 
-![alt text][image3]
+![alt text][image4]
 
 
 
@@ -142,7 +141,7 @@ I expected a performance improvement by simply using the structure of the model,
 
 The code for the model architecture is in cells 6 through 10 of [Traffic_Sign_Classifier.ipynb ](). Since only the model based on the LeNet-5 structure has been successfully trained, I will only discuss this model from now on. 
 
-![alt text][image3]
+![alt text][image5]
 
 Above is the original LeNet-5 model. I added _dropout_ of _keep prob = 0.5_ to first and second fully connected layer of the model. _AdamOptimizer_ was used with _learning rate = 0.001_, _epochs = 20_, and _batch size = 128_. With slight modifications to the default model(LeNet-5) provided form the Udacity lesson, I was able to get at least 94% accuaracy.
 
@@ -179,6 +178,8 @@ If a well known architecture was chosen:
   * LeNet-5 takes 32x32x1 size image as input and solves classification problem, which has very similar structure to our project.
   
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+  * I estimated the performance of the model for each sets. As mentioned above, each tests showed over 93% accuracy performance. Therefore, I decided that the model worked well.
+  
 
 
 ### Test a Model on New Images
@@ -187,8 +188,7 @@ If a well known architecture was chosen:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image6]
 
 As you can see these images are very regularized as the data that I used to train the model. Therefore, if the model is trained properly, it should have no difficulties to classify these images correctly.
 
@@ -204,7 +204,7 @@ The code for making predictions on my final model is located in the 15th cell of
 
 This is the results of the prediction:
 
-[alt text][image8]
+![alt text][image7]
 
 Except for the label 15 traffic sign(no vehicles), the model could classify any other signs with 100% confidence.  
 
@@ -214,9 +214,9 @@ Except for the label 15 traffic sign(no vehicles), the model could classify any 
 
 This is the visualization of network's feature maps:
 
-[alt text][image8]
-[alt text][image8]
-[alt text][image8]
+![alt text][image8]
+![alt text][image8]
+![alt text][image8]
 
 
 The first layer is seemed to extract some lines from the input images. However, in the case of the second layer, it is difficult to know what the layer is aiming for.
