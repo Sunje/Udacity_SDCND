@@ -35,7 +35,7 @@ The goals / steps of this project are the following:
 
 * Files Submitted
   * [Traffic_Sign_Classifier.ipynb ]() is Ipython notebook with code
-  * [Traffic_Sign_Classifier.ipynb ]() is HTML output of the code
+  * [Traffic_Sign_Classifier.html ]() is HTML output of the code
 
 
 * Dataset Exploration / Design and Test a Model Architecture / Test a Model on New Images
