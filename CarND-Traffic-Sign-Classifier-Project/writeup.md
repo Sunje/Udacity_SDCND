@@ -215,8 +215,8 @@ Except for the label 15 traffic sign(no vehicles), the model could classify any 
 This is the visualization of network's feature maps:
 
 ![alt text][image8]
-![alt text][image8]
-![alt text][image8]
+![alt text][image9]
+![alt text][image10]
 
 
 The first layer is seemed to extract some lines from the input images. However, in the case of the second layer, it is difficult to know what the layer is aiming for.
