@@ -88,20 +88,20 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 The model architecture is as follows:
 
-| Layer (type)         		   |     Output Shape	        					|   Param #
-|:--------------------------:|:----------------------------------:| 
-| lambda 1 (Lambda)   		   | (None, 160, 320, 3)   							| 0
-| cropping2d 1 (Cropping2D)  | (None, 65, 320, 3) 	              | 0
-| conv2d 1 (Conv2d)	 				 | (None, 31, 158, 24)								| 1824
-| conv2d 2 (Conv2d)	 				 | (None, 14, 77, 36)	 	 	   					| 21636
-| conv2d 3 (Conv2d)	 				 | (None, 5, 37, 48)								  | 43248
-| conv2d 4 (Conv2d)	 				 | (None, 3, 35, 64)	   							| 27712
-| conv2d 5 (Conv2d)	 				 | (None, 1, 33, 64)								  | 36928
-| faltten 1 (Flatten)        | (None, 2112)	                      | 0
-| dense 1 (Dense)	         	 | (None, 100)       									| 211300
-| dense 2 (Dense)	         	 | (None, 50)       									| 5050
-| dense 3 (Dense)	         	 | (None, 10)       									| 510
-| dense 4 (Dense)	         	 | (None, 1)        									| 11
+| Layer (type)         		   |     Output Shape	        					|   Param # |
+|:--------------------------:|:----------------------------------:|:----------| 
+| lambda 1 (Lambda)   		   | (None, 160, 320, 3)   							| 0         |
+| cropping2d 1 (Cropping2D)  | (None, 65, 320, 3) 	              | 0         |
+| conv2d 1 (Conv2d)	 				 | (None, 31, 158, 24)								| 1824      |
+| conv2d 2 (Conv2d)	 				 | (None, 14, 77, 36)	 	 	   					| 21636     |
+| conv2d 3 (Conv2d)	 				 | (None, 5, 37, 48)								  | 43248     |
+| conv2d 4 (Conv2d)	 				 | (None, 3, 35, 64)	   							| 27712     |
+| conv2d 5 (Conv2d)	 				 | (None, 1, 33, 64)								  | 36928     |
+| faltten 1 (Flatten)        | (None, 2112)	                      | 0         |
+| dense 1 (Dense)	         	 | (None, 100)       									| 211300    |
+| dense 2 (Dense)	         	 | (None, 50)       									| 5050      |
+| dense 3 (Dense)	         	 | (None, 10)       									| 510       |
+| dense 4 (Dense)	         	 | (None, 1)        									| 11        |
 
 #### 3. Creation of the Training Set & Training Process
 
