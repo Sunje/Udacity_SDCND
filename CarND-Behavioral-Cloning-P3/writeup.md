@@ -3,7 +3,7 @@
 [model.py]: ./model.py
 [drive.py]: ./drive.py
 [model.h5]: ./model.h5
-[writup.md]: ./writeup.md
+[writeup.md]: ./writeup.md
 
 ## Writeup Template
 
@@ -43,7 +43,7 @@ My project includes the following files:
 * [model.py][model.py] containing the script to create and train the model
 * [drive.py][drive.py] for driving the car in autonomous mode
 * [model.h5][model.h5] containing a trained convolution neural network 
-* [writeup.md][writeup.md] or writeup_report.pdf summarizing the results
+* [writeup.md][writeup.md] summarizing the results
 
 #### 2. Submission includes functional code
 Using the Udacity provided simulator and my [drive.py][drive.py] file, the car can be driven autonomously around the track by executing 
