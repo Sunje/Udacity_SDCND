@@ -179,25 +179,25 @@ def perspective_transform(edges, case):
 
     if case == 'project_video.mp4':
         src = np.float32([[w,h-10],   # bottom right
-                        [740, 460], # top right
-                        [540, 460], # top left
-                        [0,h-10]])  # bottom left
+                        [740, 460],   # top right
+                        [540, 460],   # top left
+                        [0,h-10]])    # bottom left
     elif case == 'challenge_video.mp4':
         src = np.float32([[1200,h-10], # bottom right
-                        [875,500],    # top right
-                        [525,500],    # top left
-                        [200,h-10]])  # bottom left
+                        [875,500],     # top right
+                        [525,500],     # top left
+                        [200,h-10]])   # bottom left
     elif case == 'harder_challenge_video.mp4':
         src = np.float32([[1200,h-10], # bottom right
-                        [875,500],    # top right
-                        [525,500],    # top left
-                        [200,h-10]])  # bottom left
+                        [875,500],     # top right
+                        [525,500],     # top left
+                        [200,h-10]])   # bottom left
     else:
         src = np.float32([[w,h-10],   # bottom right
-                [740, 460], # top right
-                [540, 460], # top left
-                [0,h-10]])  # bottom left
-                
+                [740, 460],           # top right
+                [540, 460],           # top left
+                [0,h-10]])            # bottom left
+
     dst = np.float32([[w,h],      # bottom right
                       [w,0],      # top right
                       [0,0],      # top left
@@ -390,7 +390,7 @@ def search_fresh(warped, left_line, right_line, smooth = 3):
 
     # The line of the current frame is searched with 'search_fresh', 
     left_line.detected = True
-    right_line.detected = True
+    
 
     return left_line, right_line, detected_img, line_img
 
