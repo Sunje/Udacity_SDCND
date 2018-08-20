@@ -60,7 +60,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ![alt text][image1]
 
-### Pipeline (single images)
+### Pipeline (single images and videos)
 
 The code for the whole process pipeline is in the [P3.py][P3.py] (in lines 68 through 103).
 
