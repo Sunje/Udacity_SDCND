@@ -85,7 +85,7 @@ def pipeline(frame, verbose = True):
     warped, Minv = perspective_transform(edges, case)
     # plt.imshow(warped)
     # plt.waitforbuttonpress()
-    print (left_line.detected)
+    
     # Poly fitting the line, calculating curvature
     if left_line.detected == False:
         left_line, right_line, detected_img, line_img = search_fresh(warped, left_line, right_line, smooth = 3)
