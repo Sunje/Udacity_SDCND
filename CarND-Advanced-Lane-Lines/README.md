@@ -12,7 +12,7 @@ Main script
 * [P3.py][P3.py] for python3.
 
 Util
-* [functions.py][functions.py] contains every function for the project.
+* [functions.py][functions.py] contains every functions for the project.
 
 Flow chart
 ---
