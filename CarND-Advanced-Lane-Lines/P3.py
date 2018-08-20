@@ -68,7 +68,7 @@ def calibration(img_dir):
 def pipeline(frame, verbose = True):
 
     global left_line, right_line, case
-    
+
     if verbose == True:
         img = frame
     else:
@@ -85,7 +85,7 @@ def pipeline(frame, verbose = True):
     warped, Minv = perspective_transform(edges, case)
     # plt.imshow(warped)
     # plt.waitforbuttonpress()
-
+    print (left_line.detected)
     # Poly fitting the line, calculating curvature
     if left_line.detected == False:
         left_line, right_line, detected_img, line_img = search_fresh(warped, left_line, right_line, smooth = 3)
@@ -107,20 +107,26 @@ if __name__ =='__main__':
     # Calibrate the camera
     ret, mtx, dist, rvecs, tvecs = calibration(img_dir='./camera_cal/calibration*.jpg')
 
-    # test_images = glob.glob('./test_images/*.jpg')
-    # for test_img in test_images:
-    #     output = pipeline(test_img, verbose = False, case = 'project_video.mp4')
-    #     outpath = os.path.join('output_images','output_'+basename(test_img))
-    #     cv2.imwrite(outpath,cv2.cvtColor(output, cv2.COLOR_RGB2BGR))
+    test_images = glob.glob('./test_images/*.jpg')
+    for test_img in test_images:
+        case = 'project_video.mp4'
+        # case = 'challenge_video.mp4'
+        # case = 'harder_challenge_video.mp4'
+        output = pipeline(test_img, verbose = False)
+        outpath = os.path.join('output_images','output_'+basename(test_img))
+        cv2.imwrite(outpath,cv2.cvtColor(output, cv2.COLOR_RGB2BGR))
+        left_line = Line()
+        right_line = Line()
 
     test_videos = glob.glob('./test_videos/*.mp4')
     for test_video in test_videos:
         case = basename(test_video)
         outpath = os.path.join('output_videos','output_'+basename(test_video))
         clip1 = VideoFileClip(test_video, verbose = True)
-        print (clip1)
         clip = clip1.fl_image(pipeline)
         clip.write_videofile(outpath,audio = False)
+        left_line = Line()
+        right_line = Line()
 
 
 
