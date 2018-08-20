@@ -53,11 +53,11 @@ The [model.py][model.py] file contains the code for training and saving the conv
 
 #### 1. An appropriate model architecture has been employed
 
-The model is based on the architecture of ["End to End Learning for Self-Driving Cars"](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) (model.py lines 67-89) 
+The model is based on the architecture of ["End to End Learning for Self-Driving Cars"](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf) (model.py lines 71-94) 
 
 ![alt text][image1]
 
-The data is normalized in the model using a Keras lambda layer (code line 68), and the model includes RELU layers to introduce nonlinearity (code line 70-74).
+The data is normalized in the model using a Keras lambda layer (code line 72), and the model includes RELU layers to introduce nonlinearity (code line 74-78).
 
 #### 2. Attempts to reduce overfitting in the model
 
@@ -65,7 +65,7 @@ The model showed reasonable results with training loss and validation loss, so t
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 87).
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 91).
 
 #### 4. Appropriate training data
 
