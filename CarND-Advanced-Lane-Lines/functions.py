@@ -167,7 +167,7 @@ def find_edges(undist):
 
     edges = np.zeros_like(hls_combined)
     edges[(gray_combined == 1) | (hls_combined == 1)] = 1
-    # plt.imshow(combined, cmap='gray')
+    # plt.imshow(edges, cmap='gray')
     # plt.waitforbuttonpress()
 
     return edges
