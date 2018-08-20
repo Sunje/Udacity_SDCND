@@ -23,13 +23,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: ./examples/nvidia_model.png "Reference model"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -105,28 +99,10 @@ The model architecture is as follows:
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+* To capture good driving behavior, I first recorded three laps on track one using center lane driving. 
+* I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to return to the center of the road.
+* Then I repeated the above processes in opposite direction to get more balanced data.
+* I also used vision data from the left-and-right biased viewpoints. For the vision data biased to the left, the angle is add by 0.2 degrees from the recorded steering angle. On the otherhand, for the vision data biased to the right, the angle is reduced by 0.2 degrees.
+* To augment the data set, I also flipped images and angles.
+* I finally randomly shuffled the data set and put 20% of the data into a validation set. 
+* I trained the model and tested it. I saw the model fail at certain corners, so I gathered more driving data for this cornering part and repeated the above processes.
