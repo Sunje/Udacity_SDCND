@@ -17,7 +17,7 @@ Util
 Flow chart
 ---
 
-Please refer [writeup.md][writeup.md]
+Please refer to the [writeup.md][writeup.md]
 
 
 # **Original Document**
