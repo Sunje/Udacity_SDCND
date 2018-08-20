@@ -5,16 +5,19 @@ import glob
 import os
 from os.path import join, basename
 from moviepy.editor import VideoFileClip
-from function import find_edges, perspective_transform
+from functions import find_edges, perspective_transform, search_fresh, search_around_poly, draw_onto_road, Line
 
+left_line = Line()
+right_line = Line()
+case = None
 
-def calibration():
+def calibration(img_dir):
     # Chessboard size
     nx = 9
     ny = 6
 
     # Read in and make a list of calibration images
-    images = glob.glob('./camera_cal/calibration*.jpg')
+    images = glob.glob(img_dir)
 
     # Arrays to stroe object points and image points from all the images
     objpoints = []
@@ -62,32 +65,62 @@ def calibration():
     return ret, mtx, dist, rvecs, tvecs
 
 
-def pipeline(frame, verbose=True):
+def pipeline(frame, verbose = True):
 
+    global left_line, right_line, case
+    
     if verbose == True:
         img = frame
     else:
         img = cv2.cvtColor(cv2.imread(frame), cv2.COLOR_BGR2RGB)
+        left_line.detected = False
 
-    # Use cv2.undistort()
+    # Undistorting, finding edges, perspective transform
     undist = cv2.undistort(img,mtx,dist,None,mtx)
+    # plt.imshow(undist)
+    # plt.waitforbuttonpress()
     edges = find_edges(undist)
-    warp = perspective_transform(edges)
-    # plt.imshow(edges, cmap='gray')
+    # plt.imshow(edges)
+    # plt.waitforbuttonpress()
+    warped, Minv = perspective_transform(edges, case)
+    # plt.imshow(warped)
     # plt.waitforbuttonpress()
 
-    return 
+    # Poly fitting the line, calculating curvature
+    if left_line.detected == False:
+        left_line, right_line, detected_img, line_img = search_fresh(warped, left_line, right_line, smooth = 3)
+    else:
+        left_line, right_line, detected_img, line_img = search_around_poly(warped, left_line, right_line, smooth = 3)
+    # plt.imshow(detected_img)
+    # plt.waitforbuttonpress()
+    # plt.imshow(line_img)
+    # plt.waitforbuttonpress()
+    out_img = draw_onto_road(undist,edges,Minv,left_line,right_line, detected_img, line_img)
+    # plt.imshow(out_img)
+    # plt.waitforbuttonpress()
+    
+    return out_img
 
 
 if __name__ =='__main__':
 
     # Calibrate the camera
-    ret, mtx, dist, rvecs, tvecs = calibration()
+    ret, mtx, dist, rvecs, tvecs = calibration(img_dir='./camera_cal/calibration*.jpg')
 
-    test_images = glob.glob('./test_images/*.jpg')
-    for test_img in test_images:
-        output = pipeline(test_img, verbose = False)
-        outpath = os.path.join('output_images','output_'+basename(test_img))
+    # test_images = glob.glob('./test_images/*.jpg')
+    # for test_img in test_images:
+    #     output = pipeline(test_img, verbose = False, case = 'project_video.mp4')
+    #     outpath = os.path.join('output_images','output_'+basename(test_img))
+    #     cv2.imwrite(outpath,cv2.cvtColor(output, cv2.COLOR_RGB2BGR))
+
+    test_videos = glob.glob('./test_videos/*.mp4')
+    for test_video in test_videos:
+        case = basename(test_video)
+        outpath = os.path.join('output_videos','output_'+basename(test_video))
+        clip1 = VideoFileClip(test_video, verbose = True)
+        print (clip1)
+        clip = clip1.fl_image(pipeline)
+        clip.write_videofile(outpath,audio = False)
 
 
 
