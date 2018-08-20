@@ -111,6 +111,7 @@ dst = np.float32([[w,h],      # bottom right
 This resulted in the following source and destination points:
 
 * for the `project_video.mp4` case
+
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
 | 1280, 710     | 1280, 720     | 
@@ -119,6 +120,7 @@ This resulted in the following source and destination points:
 | 0, 710        | 0, 720        |
 
 * for the `challenge_video.mp4` and `harder_challenge_video.mp4` case
+
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
 | 585, 460      | 320, 0        | 
