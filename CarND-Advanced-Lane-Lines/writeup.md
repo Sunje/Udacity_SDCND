@@ -27,11 +27,13 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./examples/undistort_output.png "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
+[image2]: ./examples/undist.jpg "Undist Example"
+[image3]: ./examples/edges.jpg "Binary Example"
+[image4]: ./examples/warped.jpg "Warp Example"
+[image5]: ./examples/line_img.jpg "Line Example"
+[image6]: ./examples/detected_img_sliding.jpg "Sliding Window Example"
+[image7]: ./examples/detected_img_poly.jpg "Around Poly Example"
+[image8]: ./examples/out_img.jpg "Output Example"
 [video1]: ./project_video.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -60,6 +62,8 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ### Pipeline (single images)
 
+The code for the whole process pipeline is in the [P3.py][P3.py] (in lines 68 through 103).
+
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
@@ -67,29 +71,54 @@ To demonstrate this step, I will describe how I apply the distortion correction 
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
-
+I used a combination of HLS color and gradient thresholds to generate a binary image (thresholding steps at lines 48 through 132 in [functions.py][functions.py]).  Here's an example of my output for this step.
 ![alt text][image3]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+The code for my perspective transform includes a function called `perspective_transform(edges, case)`, which appears in lines 176 through 212 in the file [functions.py][functions.py].  The `perspective_transform(edges, case)` function takes as inputs an image (`edges`), as well as argument (`case`).  I chose the hardcode the source and destination points in the following manner:
 
 ```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
+h,w = edges.shape[0], edges.shape[1]
+
+if case == 'project_video.mp4':
+    src = np.float32([[w,h-10],   # bottom right
+                    [740, 460],   # top right
+                    [540, 460],   # top left
+                    [0,h-10]])    # bottom left
+elif case == 'challenge_video.mp4':
+    src = np.float32([[1200,h-10], # bottom right
+                    [875,500],     # top right
+                    [525,500],     # top left
+                    [200,h-10]])   # bottom left
+elif case == 'harder_challenge_video.mp4':
+    src = np.float32([[1200,h-10], # bottom right
+                    [875,500],     # top right
+                    [525,500],     # top left
+                    [200,h-10]])   # bottom left
+else:
+    src = np.float32([[w,h-10],   # bottom right
+            [740, 460],           # top right
+            [540, 460],           # top left
+            [0,h-10]])            # bottom left
+
+dst = np.float32([[w,h],      # bottom right
+                  [w,0],      # top right
+                  [0,0],      # top left
+                  [0,h]])     # bottom left
 ```
 
 This resulted in the following source and destination points:
 
+* for the `project_video.mp4` case
+| Source        | Destination   | 
+|:-------------:|:-------------:| 
+| 1280, 710     | 1280, 720     | 
+| 740, 460      | 1280, 0       |
+| 540, 460      | 0, 0          |
+| 0, 710        | 0, 720        |
+
+* for the `challenge_video.mp4` and `harder_challenge_video.mp4` case
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
 | 585, 460      | 320, 0        | 
@@ -97,25 +126,41 @@ This resulted in the following source and destination points:
 | 1127, 720     | 960, 720      |
 | 695, 460      | 960, 0        |
 
+
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
 ![alt text][image4]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+Here, various steps are applied to fit the lane line with a 2nd order polynomial. The steps are as follows:
 
+1. For the very first time, polyfit the lane lines using the `search_fresh(warped, left_line, right_line, smooth = 3)` (at lines 330 through 395 in [functions.py][functions.py]) function for the first incoming frame. Here, the sliding window `sliding_window(warped, left_line, right_line, nwindows=9, margin=100, minpix=50)` (at lines 215 through 310 in [functions.py][functions.py]) technique is applied. As it was the very first frame to detect the lane lines, there were no previous informations regarding the lane lines. At the end, change the `left_line.detected` argument to True. This argument represent whether the lane lines have been detected. Here, I assume that the lane lines detected by using the `search_fresh` fucntion is the solid information regarding the lane lines. So the next frame will execute the `search_around_poly` function which will be discussed in the below.
+
+2. Next, the second frame to be analyzed has the information regarding the lane lines from the previous frame. So, it doesn't need to find the lane lines from scratch. It can use the position information of the previous lane lines as a reference point to find the lane lines for the current frame. The `search_around_poly(warped, left_line, right_line, smooth = 3)` (at lines 403 through 541 in [functions.py][functions.py]) function is applied in here. An important checkpoint here is to compare the newly detected lane lines with the previous lane lines. If the difference between the two is large, it is assumed that the newly detected lane lines are not reasonable, and the `search_fresh` function is executed in the next frame by change the `left_line.detected` argument to False. The criterion for the difference between the two is 10%. That is, if the difference exceeds 10%, the above process is executed. See the lines 471 through 483 and 397 through 401 in [functions.py][function.py] for details. If there is no problem, then the next frame will also execute the `search_around_poly` function.
+
+3. While the above processes are repeated, the arguments at lines 26 through 44 in [functions.py][functions.py] holds the acculmulated lane line informations from the previous frames. As a result, in the current frame, the lane line is detected by integrating the information of the 1 step and 2 step previous frames. This allows for smooth fitting and is based on the assumption that the lane lines up to 2 frames will not be significantly different from the lane lines in the current frame. See the lines 338 through 345 and 451 through 458 in [functions.py][functions.py] for details.
+
+Here are some example images.
+
+* This is the lane line image. From the warped image, the left lane line is colored red and the right lane line is colored blue.
 ![alt text][image5]
+
+* This is the detected line image using `search_fresh` function.
+![alt text][image6]
+
+* This is the detected line image using `search_around_poly` function.
+![alt text][image7]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I did this in lines 313 through 327 in my code in [functions.py][functions.py].
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I implemented this step in lines 544 through 599 in my code in [functions.py][functions.py] in the function `draw_onto_road(undist,edges,Minv,left_line,right_line,detected_img,line_img)`.  Here is an example of my result on a test image:
 
-![alt text][image6]
+![alt text][image8]
 
 ---
 
@@ -123,7 +168,7 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result][https://youtu.be/pbMKv5ClCk4]
 
 ---
 
@@ -131,4 +176,4 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The process that I took worked really fine for the `project_video.mp4` case. But as for the `challenge_video.mp4` and espescially `harder_challenge_video.mp4` case, it did not work fine. For the `challenge_video.mp4` case, the lane lines are quite detected by simply modifying the `src` points in the `perspective_transform` function. On the otherhand, for the `harder_challenge_video.mp4` case, well... it is really hard to detect the lane lines by using the only vision information. There are so many problems such that the motorcycle intervenes in the middle blocking the lane lines; the brightness of the light changes too much, making it difficult even for a person to distinguish the lane lines; the curve is so severe that the line continuously deviates from the assumed `src` points (it could be considered to continue to deviate from the region of interest in project 1).
