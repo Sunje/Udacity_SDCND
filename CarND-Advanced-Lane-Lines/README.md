@@ -9,7 +9,7 @@ List of files
 ---
 
 Main script
-* [P3.py][P3.py] for python3.
+* [P4.py][P4.py] for python3.
 
 Util
 * [functions.py][functions.py] contains every functions for the project.
