@@ -20,7 +20,7 @@ The goals / steps of this project are the following:
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
 
-[P3.py]: ./P3.py
+[P4.py]: ./P4.py
 [functions.py]: ./functions.py
 
 
@@ -52,7 +52,7 @@ You're reading it!
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for this step is contained in the the python3 script [P3.py][P3.py] (in lines 14 through 65).  
+The code for this step is contained in the the python3 script [P4.py][P4.py] (in lines 14 through 65).  
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
@@ -62,7 +62,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ### Pipeline (single images and videos)
 
-The code for the whole process pipeline is in the [P3.py][P3.py] (in lines 68 through 103).
+The code for the whole process pipeline is in the [P4.py][P4.py] (in lines 68 through 103).
 
 #### 1. Provide an example of a distortion-corrected image.
 
