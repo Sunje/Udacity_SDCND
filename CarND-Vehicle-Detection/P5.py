@@ -196,7 +196,8 @@ def pipeline(img, verbose=True):
     # pair12 = [[496,656],2.5]
     # pairs = [pair1,pair2,pair3,pair4,pair5,pair6,pair7,pair8,pair9,pair10,pair11,pair12]
     
-    
+    window_list = []
+    imcopy = np.copy(img)
     for i in range(len(pairs)):
         y_start_stop, scale = pairs[i][0], pairs[i][1]
         _, bbox = find_cars(img, svc, X_scaler, y_start_stop=y_start_stop, scale=scale, cspace=cspace,
@@ -204,7 +205,24 @@ def pipeline(img, verbose=True):
                             spatial_size=spatial_size, hist_bins=hist_bins, hist_range=hist_range, hog_channel=hog_channel,
                             get_spatial=get_spatial, get_hist=get_hist, get_HOG=get_HOG)
         bboxes.extend(bbox)
-    
+        
+        if verbose==False:
+            window_list = slide_window(img,y_start_stop=y_start_stop)
+            imcopy = draw_boxes(imcopy,window_list)
+
+    # Check advanced sliding window
+    if verbose==False:
+        fig = plt.figure(figsize=(12,3))
+        plt.subplot(121)
+        plt.imshow(img)
+        plt.title('Example Road Image')
+        plt.subplot(122)
+        plt.imshow(imcopy)
+        plt.title('Advanced Sliding Window')
+        plt.savefig('output_images/advanced_sliding_window.png',bbox_inches='tight')
+        # plt.waitforbuttonpress()
+        # plt.close()
+             
     if len(bboxes) > 0:
         cars.update_bboxes(bboxes)
 
@@ -408,7 +426,7 @@ if __name__ =='__main__':
     plt.imshow(draw_img)
     plt.title('Car Positions')
     plt.subplot(132)
-    plt.imshow(heatmap, cmap='hot')
+    plt.imshow(heatmap, cmap='hot') 
     plt.title('Heat Map')
     plt.subplot(133)
     plt.imshow(labels[0], cmap='gray')
@@ -420,7 +438,7 @@ if __name__ =='__main__':
     # Check pipeline
     test_img = cv2.cvtColor(cv2.imread('test_images/test6.jpg'),cv2.COLOR_BGR2RGB)
     pipeline(test_img, verbose=False)
-
+    quit()
     # Video encoding
     test_videos = glob.glob('./test_videos/*.mp4')
     for test_video in test_videos:
