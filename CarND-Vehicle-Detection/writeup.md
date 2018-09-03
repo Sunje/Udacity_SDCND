@@ -3,6 +3,12 @@
 
 ---
 
+[P5.py]: ./P5.py
+[functions.py]: ./functions.py
+[writeup.md]: ./writeup.md
+
+
+
 **Vehicle Detection Project**
 
 The goals / steps of this project are the following:
@@ -16,13 +22,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
+[image2]: ./examples/spatial_visualization.png
+[image3]: ./examples/hist_visualization.png
+[image4]: ./examples/hog_visualization.png
+[image5]: ./examples/sliding_window.png
+[image6]: ./examples/advanced_sliding_window.png
+[image7]: ./examples/search_window.png
+[image8]: ./examples/final.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -34,69 +40,100 @@ The goals / steps of this project are the following:
 
 You're reading it!
 
-### Histogram of Oriented Gradients (HOG)
-
-#### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
-
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
-
+### Preview on data sets
 I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
 ![alt text][image1]
 
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
+### Various features 
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
+#### 1.1 Sptial Binning of Color
+The code for this step is contained in the [fucntions.py][fucntions.py] (in lines 38-44). The below image shows the extracted spatial feature from the example original image.
 
 ![alt text][image2]
 
+By regulating the hyper-parameter(`size`), we can make a good feature extraction. This is an important factor in optimizing the model. You can regulate this parameter in the [P5.py][P5.py] (in line 21, which is named `sptial_size`).
+
+#### 1.2 Histogram of Color
+The code for this step is contained in the [fucntions.py][fucntions.py] (in lines 46-63). The below image shows the extracted hist feature from the example original image. 
+
+![alt text][image3]
+
+By regulating the hyper-parameters(`nbins` and `bins_range`), we can make a good feature extraction. This is an important factor in optimizing the model. You can regulate these parameters in the [P5.py][P5.py] (in lines 22-23, which are named `hist_bins` and `hist_range`, respectively).
+
+#### 1.3 Histogram of Oriented Gradients (HOG)
+
+The code for this step is contained in the [fucntions.py][fucntions.py] (in lines 65-82). The below image shows the extracted hog feature from the example original image.
+
+![alt text][image4]
+
+By regulating the hyper-parameters(`orient`, `pix_per_cell`, and `cell_per_block`), we can make a good feature extraction. This is an important factor in optimizing the model. You can regulate these parameters in the [P5.py][P5.py] (in lines 24-26).
+
+#### 1.4 Additional parameters
+
+In addition to the parameters listed above, there are `cspace`, `hog_channel`, and `cells_per_step`. 
+* `cspace`: which determines which color space to use
+* `hog_channel`: which determines what color channel to be used in hog feature extraction
+* `cells_per_step`: which regulates the overlap of window in window search
+
+You can regulate these parameters in the [P5.py][P5.py] (in lines 20 and 27-29)
+
+
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I tried various combinations of parameters and referred the values used in other student's work. These works what I referred.
+* https://github.com/jeremy-shannon/CarND-Vehicle-Detection/blob/master/vehicle_detection_project.ipynb
+* https://github.com/hortovanyi/udacity-vehicle-detection-project/blob/master/Vehicle%20Detection%20Project.ipynb
+* https://github.com/thomasantony/CarND-P05-Vehicle-Detection/blob/master/Project05-Training.ipynb
+* https://github.com/NikolasEnt/Vehicle-Detection-and-Tracking/blob/master/VehicheDetect.ipynb
 
-#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+#### 3. Describe how (and identify where in your code) you trained a classifier using your selected features
 
-I trained a linear SVM using...
+Personally, I spend a lot of time in training the model. Figuring out the best combination of features and setting the hyper-parameters were the hardest things in the project. The combinations are listed as follows:
+* Train the model using the spatial and the hist features
+* Train the model using the hog feature only
+* Train the model using all of the features
+
+You can select the combination in the [P5.py][P5.py] (in line 32). I used is the hog feature only combination, which achieved 98.56% accuracy in a test.
+
 
 ### Sliding Window Search
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+The code for this step is contained in [fucntions.py][fucntions.py] (in lines 175-219 for checking purpose, in lines 315-417 for implementation) and [P5.py][P5.py] (in lines 172-197, the scales can be found in here). I did not change the `cells_per_step` parameters.
 
-![alt text][image3]
+Checking purpose
+![alt text][image5]
+
+Implementation
+![alt text][image6]
+
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+The code for this step is contained in [fucntions.py][fucntions.py] (in lines 233-312) and in [P5.py][P5.py] (in lines 382-397). Ultimately I searched on two scales using YCrCb color space, all channels of HOG features, which provided a nice result.  Here is an example image:
 
-![alt text][image4]
+![alt text][image7]
+
+As mentioned above, the optimization process has been done with the determination of parameter values and what features to use.
+
 ---
 
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](https://www.youtube.com/watch?v=SYY3klg5AXY)
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions. I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap. I then assumed each blob corresponded to a vehicle. I constructed bounding boxes to cover the area of each blob detected. The code is contained in [functions.py][functions.py] (in lines 419-451).
+In addition, I declared `Cars()` class parameter `cars` in [P5.py][P5.py] (in line 15). This parameter stores the bounding boxes values of the previous 2 frames. As the position of the cars will not change drastically from frame to frame, the bounding boxes of the previous frames help to locate the car in the current frame and soften the bounding box of the car to be drawn in the image.
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+Here's an example result showing the heatmap, the result of `scipy.ndimage.measurements.label()`, and the resulting bounding boxes are drawn onto the last frame by thresholding the map.
 
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
+![alt text][image8]
 
 ---
 
@@ -104,5 +141,6 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The main problem that I faced with this project is how to set the hyper-parameters. I spend a lot of time in regulating those parameters to find the optimized model which can find cars in the video robustly. Of course, it was not easy and I struggled a lot. To be honest, as you can see in the [result video](https://www.youtube.com/watch?v=SYY3klg5AXY), it is not that perfect. In some occasions, it fails to detect the cars. It could fail where the extracted features from the frame don't resemble those in the training dataset. `scipy.ndimage.measurements.label()` is also one of the problems that it cannot distinguish the cars when they are close to each other in the frame. The threshold value in the `apply_threshold` is also a vulnerable point that can wipe out the true positive values (the model detected cars as cars) depending on how you set this value!
+As an alternative, we can use the deep learning architecture instead of machine learning. The famous [YOLO](https://pjreddie.com/darknet/yolo/) is really robust in detecting the objects and furthermore, ensures real-time, one of the important requirements of autonomous vehicle.
 
