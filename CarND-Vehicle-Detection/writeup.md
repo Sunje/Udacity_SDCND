@@ -101,7 +101,7 @@ You can select the combination in the [P5.py][P5.py] (in line 32). I used is the
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-The code for this step is contained in [fucntions.py][fucntions.py] (in lines 175-219 for checking purpose, in lines 315-417 for implementation) and [P5.py][P5.py] (in lines 172-197, the scales can be found in here). I did not change the `cells_per_step` parameters.
+The code for this step is contained in [functions.py][functions.py] (in lines 175-219 for checking purpose, in lines 315-417 for implementation) and [P5.py][P5.py] (in lines 172-197, the scales can be found in here). I did not change the `cells_per_step` parameters.
 
 Checking purpose
 ![alt text][image5]
